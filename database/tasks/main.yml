@@ -1,33 +1,44 @@
 ---
-# tasks file for database
-- name: Install mariadb
-  yum:
-    name: mariadb
-    state: present
-
-- name: Enable and start mariadb and firewalld
-  service:
-    name: ['mariadb', 'firewalld']
-    state: started
-    enabled: yes
-
-
-
-- name: Create database zabbix
-  mysql_db:
-    name: zabbix
-    state: present
-
-- name: Create database user with password
-  mysql_user:
-    name: zabbix
-    password: "{{ DBPASSWD }}"
-    priv: 'zabbix.*:ALL,GRANT'
-    state: present
-
-- name: Configure firewall for mysql
-  firewalld:
-    service: mysql
-    permanent: yes
-    state: enabled
-    immediate: yes
+    # tasks file for database
+    - name: Install mariadb
+      yum:
+        name: ['mariadb', 'MySQL-python']
+        state: present
+    
+    - name: Enable and start mariadb and firewalld
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - mariadb
+        - firewalld
+    
+    - name: Configure firewall for mysql
+      firewalld:
+        service: mysql
+        permanent: yes
+        state: enabled
+        immediate: yes
+    
+    
+    - name: Create database zabbix
+      mysql_db:
+        name: zabbix
+        state: present
+        encoding: utf8
+        login_password: "{{ DBROOTPASSWD }}"
+        config_file: /etc/my.cnf
+    
+    - name: Create database user with password
+      mysql_user:
+        name: zabbix
+        password: "{{ DBPASSWD }}"
+        priv: 'zabbix.*:ALL,GRANT'
+        state: present
+        login_user: root
+        login_password: "{{ DBROOTPASSWD }}"
+        config_file: /etc/my.cnf
+      tags:
+        - createdbuser
+    
