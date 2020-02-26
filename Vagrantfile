@@ -18,13 +18,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     #vb.gui = true
     vb.memory = 512
-  end
-
-  ## ansible-control.hl.local
-  config.vm.define "ansible-control.hl.local" do |machine|
-    machine.vm.hostname = "ansible-controle.hl.local"
-    machine.vm.box = "centos/7"
-    machine.vm.network "private_network", ip: "192.168.57.20"
+    vb.customize ["modifyvm", :id, "--groups", "/Zabbix-Lab"]
   end
 
   ## database.hl.local
@@ -40,7 +34,5 @@ Vagrant.configure("2") do |config|
     machine.vm.box = "centos/7"
     machine.vm.network "private_network", ip: "192.168.57.22"
   end
-
-
 end
 
