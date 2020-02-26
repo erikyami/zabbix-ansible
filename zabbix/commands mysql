@@ -1,1 +1,4 @@
 GRANT ALL PRIVILEGES ON zabbix.* TO 'zabbix'@'%' IDENTIFIED BY "pwd_zabbix";
+
+
+DROP USER 'zabbix'@'localhost';
