@@ -7,7 +7,7 @@
 # you're doing.
 
 ## Lab Zabbix Ansible
-# ansible-control : 192.168.57.20
+# ansible-control : 192.168.57.11
 # database : 192.168.57.21
 # zabbix : 192.168.57.22
 
