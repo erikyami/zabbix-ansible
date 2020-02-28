@@ -29,13 +29,23 @@
       encoding: utf8
       login_password: "{{ DBROOTPASSWD }}"
       config_file: /etc/my.cnf
-  
+ 
+
+
+  - name: Remove user "{{ DBUSERNAME }}"
+    mysql_user:
+      name: "{{ DBUSERNAME }}"
+      login_password: "{{ DBROOTPASSWD }}"
+      state: absent
+      config_file: /etc/my.cnf
+
   - name: Create database user with password
     mysql_user:
       name: "{{ DBUSERNAME }}"
       password: "{{ DBPASSWD }}"
       priv: '{{ DBNAME }}.*:ALL,GRANT'
       state: present
+      host: "{{ HOSTZABBIXSERVER }}"
       login_password: "{{ DBROOTPASSWD }}"
       config_file: /etc/my.cnf
     tags:

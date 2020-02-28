@@ -1,5 +1,8 @@
 ---
 - hosts: database
-
   roles:
     - database
+
+- hosts: zabbix
+  roles:
+    - zabbix
